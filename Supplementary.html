@@ -1,0 +1,505 @@
+Supplementary
+
+writeLines('<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placeholder Title</title>
+    <style>
+        /* ---- RESET & BASE ---- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f0eb;
+            color: #2a2a2a;
+            line-height: 1.7;
+        }
+
+        /* ---- COLOR PALETTE ---- 
+            Dark charcoal:   #1e1e1e, #2a2a2a
+            Warm beige:      #d4c5b2, #e8ddd0, #f5f0eb
+            Sage green:      #5a6b4a, #7a8b6a, #4a5a3a
+            Cream white:     #f0ebe4
+            Taupe accent:    #b8a99a
+        */
+
+        /* ---- HERO SECTION ---- */
+        .hero {
+            background: linear-gradient(160deg, #1e1e1e 0%, #2a2a2a 60%, #3a3a35 100%);
+            color: #f0ebe4;
+            text-align: center;
+            padding: 80px 20px 50px;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #5a6b4a, #b8a99a, #5a6b4a);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
+            color: #f0ebe4;
+        }
+
+        .hero .subtitle {
+            font-size: 1.15rem;
+            color: #b8a99a;
+            max-width: 720px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* ---- TABLE OF CONTENTS ---- */
+        .toc-wrapper {
+            background: #2a2a2a;
+            padding: 30px 20px 35px;
+        }
+
+        .toc {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 28px 36px;
+        }
+
+        .toc h2 {
+            font-size: 1.1rem;
+            color: #b8a99a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .toc-section-title {
+            font-size: 0.82rem;
+            color: #7a8b6a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-top: 14px;
+            margin-bottom: 8px;
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+            padding-left: 0;
+        }
+
+        .toc ol li {
+            counter-increment: toc-counter;
+            margin-bottom: 6px;
+        }
+
+        .toc ol li a {
+            color: #d4c5b2;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc ol li a::before {
+            content: counter(toc-counter, decimal-leading-zero);
+            color: #5a6b4a;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 14px;
+            min-width: 24px;
+        }
+
+        .toc ol li a:hover {
+            background: rgba(90, 107, 74, 0.15);
+            color: #f0ebe4;
+        }
+
+        /* ---- MAIN CONTAINER ---- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* ---- SECTION HEADERS ---- */
+        .section-header {
+            margin-top: 60px;
+            margin-bottom: 12px;
+            padding-bottom: 14px;
+            border-bottom: 3px solid #5a6b4a;
+            display: inline-block;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: #2a2a2a;
+        }
+
+        .section-intro {
+            font-size: 1.05rem;
+            color: #5c5c5c;
+            margin-bottom: 35px;
+            max-width: 800px;
+        }
+
+        /* ---- WIDGET CARDS ---- */
+        .widget-card {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(42, 42, 42, 0.07);
+            margin-bottom: 45px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+            border: 1px solid #e8ddd0;
+        }
+
+        .widget-card:hover {
+            box-shadow: 0 8px 36px rgba(42, 42, 42, 0.11);
+            transform: translateY(-2px);
+        }
+
+        .widget-card .card-text {
+            padding: 28px 32px 20px;
+        }
+
+        .widget-card h3 {
+            font-size: 1.35rem;
+            color: #2a2a2a;
+            margin-bottom: 8px;
+        }
+
+        .widget-card p {
+            font-size: 0.97rem;
+            color: #6b6b6b;
+            margin-bottom: 8px;
+        }
+
+        .widget-card .tag {
+            display: inline-block;
+            background: #eae5de;
+            color: #5a6b4a;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 20px;
+            margin-top: 6px;
+            margin-right: 5px;
+        }
+
+        /* ---- IFRAME CONTAINER ---- */
+        .iframe-container {
+            width: 100%;
+            border-top: 1px solid #e8ddd0;
+            background: #faf8f5;
+            padding: 10px;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 650px;
+            border: 1px solid #e0d8cf;
+            border-radius: 8px;
+        }
+
+        /* ---- TIP BAR ---- */
+        .tip-bar {
+            background: #eae5de;
+            border-left: 4px solid #5a6b4a;
+            padding: 16px 22px;
+            margin-bottom: 35px;
+            border-radius: 0 10px 10px 0;
+            font-size: 0.93rem;
+            color: #3a3a3a;
+        }
+
+        .tip-bar strong {
+            color: #4a5a3a;
+        }
+
+        /* ---- BACK TO TOP BUTTON ---- */
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #5a6b4a;
+            color: #f0ebe4;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .back-to-top:hover {
+            background: #4a5a3a;
+        }
+
+        /* ---- DIVIDER ---- */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #b8a99a, transparent);
+            margin: 60px 0 10px;
+            border: none;
+        }
+
+        /* ---- FOOTER ---- */
+        footer {
+            text-align: center;
+            padding: 45px 20px;
+            background: #2a2a2a;
+            color: #b8a99a;
+            font-size: 0.85rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #7a8b6a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            color: #5a6b4a;
+        }
+
+        footer .footer-line {
+            margin-bottom: 5px;
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+            .toc {
+                padding: 20px;
+            }
+            .iframe-container iframe {
+                height: 400px;
+            }
+            .widget-card .card-text {
+                padding: 20px;
+            }
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HERO ==================== -->
+    <div class="hero" id="top">
+        <h1>Placeholder Main Title</h1>
+        <p class="subtitle">
+            Placeholder subtitle — a brief description of what this page is about 
+            and why these interactive 3D models are interesting.
+        </p>
+    </div>
+
+    <!-- ==================== TABLE OF CONTENTS ==================== -->
+    <div class="toc-wrapper">
+        <div class="toc">
+            <h2>📋 Table of Contents</h2>
+
+            <p class="toc-section-title">Placeholder First Header</p>
+            <ol>
+                <li><a href="#widget1">Placeholder Title Widget 1</a></li>
+                <li><a href="#widget2">Placeholder Title Widget 2</a></li>
+                <li><a href="#widget3">Placeholder Title Widget 3</a></li>
+            </ol>
+
+            <p class="toc-section-title">Placeholder Second Header</p>
+            <ol start="4">
+                <li><a href="#widget4">Placeholder Title Widget 4</a></li>
+                <li><a href="#widget5">Placeholder Title Widget 5</a></li>
+                <li><a href="#widget6">Placeholder Title Widget 6</a></li>
+                <li><a href="#widget7">Placeholder Title Widget 7</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Tip for users -->
+        <div class="tip-bar">
+            <strong>💡 Tip:</strong> All visualizations below are fully interactive — 
+            click &amp; drag to rotate, scroll to zoom, and use sliders where available. 
+            Best experienced on a desktop browser.
+        </div>
+
+        <!-- ==================== SECTION 1 ==================== -->
+        <div class="section-header">
+            <h2>Placeholder First Header</h2>
+        </div>
+        <p class="section-intro">
+            Placeholder introductory text for this first section. Explain the context, 
+            methodology, or anything else the reader should know before exploring these 
+            three visualizations.
+        </p>
+
+        <!-- Widget 1 -->
+        <div class="widget-card" id="widget1">
+            <div class="card-text">
+                <h3>Placeholder Title Widget 1</h3>
+                <p>
+                    Placeholder description for the first 3D model. Explain what the reader 
+                    is looking at, what the axes represent, and what insights can be drawn.
+                </p>
+                <span class="tag">Placeholder Tag A</span>
+                <span class="tag">Placeholder Tag B</span>
+            </div>
+            <div class="iframe-container">
+                <iframe src="widget1.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+        </div>
+
+        <!-- Widget 2 -->
+        <div class="widget-card" id="widget2">
+            <div class="card-text">
+                <h3>Placeholder Title Widget 2</h3>
+                <p>
+                    Placeholder description for the second 3D model. Describe the data source, 
+                    the variables visualized, and how to interact with it.
+                </p>
+                <span class="tag">Placeholder Tag C</span>
+                <span class="tag">Placeholder Tag D</span>
+            </div>
+            <div class="iframe-container">
+                <iframe src="widget2.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+        </div>
+
+        <!-- Widget 3 -->
+        <div class="widget-card" id="widget3">
+            <div class="card-text">
+                <h3>Placeholder Title Widget 3</h3>
+                <p>
+                    Placeholder description for the third 3D model. Mention any notable 
+                    patterns or areas the reader should focus on.
+                </p>
+                <span class="tag">Placeholder Tag E</span>
+                <span class="tag">Placeholder Tag F</span>
+            </div>
+            <div class="iframe-container">
+                <iframe src="widget3.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+        </div>
+
+        <!-- ==================== DIVIDER ==================== -->
+        <hr class="section-divider">
+
+        <!-- ==================== SECTION 2 ==================== -->
+        <div class="section-header">
+            <h2>Placeholder Second Header</h2>
+        </div>
+        <p class="section-intro">
+            Placeholder introductory text for the second section. Provide context for 
+            these four additional interactive visualizations and how they relate to 
+            the models shown above.
+        </p>
+
+        <!-- Widget 4 -->
+        <div class="widget-card" id="widget4">
+            <div class="card-text">
+                <h3>Placeholder Title Widget 4</h3>
+                <p>
+                    Placeholder description for the fourth 3D model. Explain what makes 
+                    this visualization unique or complementary to the previous ones.
+                </p>
+                <span class="tag">Placeholder Tag G</span>
+            </div>
+            <div class="iframe-container">
+                <iframe src="widget4.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+        </div>
+
+        <!-- Widget 5 -->
+        <div class="widget-card" id="widget5">
+            <div class="card-text">
+                <h3>Placeholder Title Widget 5</h3>
+                <p>
+                    Placeholder description for the fifth 3D model. Describe the parameters 
+                    the reader can adjust using the sliders.
+                </p>
+                <span class="tag">Placeholder Tag H</span>
+            </div>
+            <div class="iframe-container">
+                <iframe src="widget5.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+        </div>
+
+        <!-- Widget 6 -->
+        <div class="widget-card" id="widget6">
+            <div class="card-text">
+                <h3>Placeholder Title Widget 6</h3>
+                <p>
+                    Placeholder description for the sixth 3D model. Mention any 
+                    comparison the reader should make with previous visualizations.
+                </p>
+                <span class="tag">Placeholder Tag I</span>
+                <span class="tag">Placeholder Tag J</span>
+            </div>
+            <div class="iframe-container">
+                <iframe src="widget6.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+        </div>
+
+        <!-- Widget 7 -->
+        <div class="widget-card" id="widget7">
+            <div class="card-text">
+                <h3>Placeholder Title Widget 7</h3>
+                <p>
+                    Placeholder description for the seventh 3D model. Summarize key 
+                    takeaways or final observations.
+                </p>
+                <span class="tag">Placeholder Tag K</span>
+            </div>
+            <div class="iframe-container">
+                <iframe src="widget7.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+        </div>
+
+        <!-- Back to top -->
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="#top" class="back-to-top">↑ Back to Top</a>
+        </div>
+
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p class="footer-line">Placeholder Footer Text &mdash; Created with R</p>
+        <p class="footer-line">Hosted on <a href="https://pages.github.com/" target="_blank">GitHub Pages</a></p>
+        <p style="margin-top: 8px;">Placeholder Name &bull; Placeholder Year</p>
+    </footer>
+
+</body>
+</html>', con = "index.html")
