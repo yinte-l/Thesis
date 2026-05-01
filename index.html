@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Thesis Yin-te Luan Pauwels</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+    <style>
+        /* ---- RESET & BASE ---- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:  "Unbounded", sans-serif;
+            background-color: #f5f0eb;
+            color: #2a2a2a;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        /* ---- COLOR PALETTE ---- 
+            Dark charcoal:   #1e1e1e, #2a2a2a
+            Warm beige:      #d4c5b2, #e8ddd0, #f5f0eb
+            Sage green:      #5a6b4a, #7a8b6a, #4a5a3a
+            Cream white:     #f0ebe4
+            Taupe accent:    #b8a99a
+        */
+
+        /* ---- HERO SECTION ---- */
+        .hero {
+            background: linear-gradient(160deg, #1e1e1e 0%, #2a2a2a 60%, #3a3a35 100%);
+            color: #f0ebe4;
+            text-align: center;
+            padding: 80px 20px 50px;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #5a6b4a, #b8a99a, #5a6b4a);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
+            color: #f0ebe4;
+        }
+
+        .hero .subtitle {
+            font-size: 1.15rem;
+            color: #b8a99a;
+            max-width: 720px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* ---- TABLE OF CONTENTS ---- */
+        .toc-wrapper {
+            background: #2a2a2a;
+            padding: 30px 20px 35px;
+        }
+
+        .toc {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 28px 36px;
+        }
+
+        .toc h2 {
+            font-size: 1.1rem;
+            color: #b8a99a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .toc-section-title {
+            font-size: 0.82rem;
+            color: #7a8b6a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-top: 14px;
+            margin-bottom: 8px;
+        }
+
+        /* Reset the counter once on the TOC, not per <ol>,
+           so numbering continues across groups. */
+        .toc {
+            counter-reset: toc-counter;
+        }
+
+        .toc ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc ol li {
+            counter-increment: toc-counter;
+            margin-bottom: 6px;
+        }
+
+        .toc ol li a {
+            color: #d4c5b2;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .toc ol li a::before {
+            content: counter(toc-counter, decimal-leading-zero);
+            color: #5a6b4a;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 14px;
+            min-width: 24px;
+        }
+
+        .toc ol li a:hover {
+            background: rgba(90, 107, 74, 0.15);
+            color: #f0ebe4;
+        }
+
+        /* ---- MAIN CONTAINER ---- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Let widget cards (which contain iframes) break out of the
+           container width so wide Plotly figures aren't clipped. */
+        .widget-card {
+            max-width: 1100px;       /* tweak as you like */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ---- SECTION HEADERS ---- */
+        .section-header {
+            margin-top: 60px;
+            margin-bottom: 12px;
+            padding-bottom: 14px;
+            border-bottom: 3px solid #5a6b4a;
+            display: inline-block;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: #2a2a2a;
+        }
+
+        .section-intro {
+            font-size: 1.05rem;
+            color: #5c5c5c;
+            margin-bottom: 35px;
+            max-width: 800px;
+        }
+
+        /* ---- WIDGET CARDS ---- */
+        .widget-card {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(42, 42, 42, 0.07);
+            margin-bottom: 45px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+            border: 1px solid #e8ddd0;
+        }
+
+        .widget-card:hover {
+            box-shadow: 0 8px 36px rgba(42, 42, 42, 0.11);
+            transform: translateY(-2px);
+        }
+
+        .widget-card .card-text {
+            padding: 28px 32px 20px;
+        }
+
+        .widget-card h3 {
+            font-size: 1.35rem;
+            color: #2a2a2a;
+            margin-bottom: 8px;
+        }
+
+        .widget-card p {
+            font-size: 0.97rem;
+            color: #6b6b6b;
+            margin-bottom: 8px;
+        }
+
+        .widget-card .tag {
+            display: inline-block;
+            background: #eae5de;
+            color: #5a6b4a;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 20px;
+            margin-top: 6px;
+            margin-right: 5px;
+        }
+
+        /* ---- IFRAME CONTAINER ---- */
+        .iframe-container {
+            width: 100%;
+            border-top: 1px solid #e8ddd0;
+            background: #faf8f5;
+            padding: 10px;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 650px;
+            border: 1px solid #e0d8cf;
+            border-radius: 8px;
+        }
+
+        /* ---- TIP BAR ---- */
+        .tip-bar {
+            background: #eae5de;
+            border-left: 4px solid #5a6b4a;
+            padding: 16px 22px;
+            margin-bottom: 35px;
+            border-radius: 0 10px 10px 0;
+            font-size: 0.93rem;
+            color: #3a3a3a;
+        }
+
+        .tip-bar strong {
+            color: #4a5a3a;
+        }
+
+        /* ---- BACK TO TOP BUTTON ---- */
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #5a6b4a;
+            color: #f0ebe4;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .back-to-top:hover {
+            background: #4a5a3a;
+        }
+
+        /* ---- DIVIDER ---- */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #b8a99a, transparent);
+            margin: 60px 0 10px;
+            border: none;
+        }
+
+        /* ---- FOOTER ---- */
+        footer {
+            text-align: center;
+            padding: 45px 20px;
+            background: #2a2a2a;
+            color: #b8a99a;
+            font-size: 0.85rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #7a8b6a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            color: #5a6b4a;
+        }
+
+        footer .footer-line {
+            margin-bottom: 5px;
+        }
+
+        /* ---- FLOATING TABLE OF CONTENTS ---- */
+        .floating-toc {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%) translateX(-20px);
+            width: 280px;
+            max-height: 95vh;        /* taller */
+            overflow: hidden;        /* no scrollbar */
+            background: #2a2a2a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px 20px;      /* slightly tighter */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        .floating-toc.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) translateX(-0);
+        }
+
+         .floating-toc h2 {
+            font-size: 0.85rem;
+            color: #b8a99a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;     /* was 14px */
+            font-weight: 600;
+        }
+
+        .floating-toc .toc-section-title {
+            font-size: 0.7rem;
+            color: #7a8b6a;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            margin-top: 6px;         /* was 10px */
+            margin-bottom: 4px;      /* was 6px */
+        }
+
+        /* Reset the counter once on the floating TOC, not per <ol>,
+           so numbering continues across groups. */
+        .floating-toc {
+            counter-reset: floating-toc-counter;
+        }
+
+        .floating-toc ol {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .floating-toc ol li {
+            counter-increment: floating-toc-counter;
+            margin-bottom: 2px;      /* was 4px */
+        }
+
+        .floating-toc ol li a {
+            color: #d4c5b2;
+            text-decoration: none;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            padding: 3px 8px;        /* was 5px 8px */
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            line-height: 1.3;        /* was 1.4 */
+        }
+
+        .floating-toc ol li a::before {
+            content: counter(floating-toc-counter, decimal-leading-zero);
+            color: #5a6b4a;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-right: 10px;
+            min-width: 20px;
+            flex-shrink: 0;
+        }
+
+        .floating-toc ol li a:hover {
+            background: rgba(90, 107, 74, 0.2);
+            color: #f0ebe4;
+        }
+
+        /* Active (currently viewed) entry in floating TOC */
+        .floating-toc ol li a.active,
+        .floating-toc ol li a.active:hover {
+            background: rgba(122, 139, 106, 0.35) !important;
+            color: #f0ebe4 !important;
+            font-weight: 500;
+            border-left: 3px solid #7a8b6a;
+            padding-left: 5px;
+        }
+
+
+        /* Custom scrollbar for floating toc */
+        .floating-toc::-webkit-scrollbar {
+            width: 6px;
+        }
+        .floating-toc::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .floating-toc::-webkit-scrollbar-thumb {
+            background: #5a6b4a;
+            border-radius: 3px;
+        }
+
+        /* Hide floating toc on small screens */
+        @media (max-width: 1200px) {
+            .floating-toc {
+                display: none;
+            }
+        }
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+            .toc {
+                padding: 20px;
+            }
+            .iframe-container iframe {
+                height: 400px;
+            }
+            .widget-card .card-text {
+                padding: 20px;
+            }
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ==================== FLOATING TOC (auto-populated) ==================== -->
+    <aside class="floating-toc" id="floatingToc" aria-hidden="true"></aside>
+    <!-- ==================== HERO ==================== -->
+    <div class="hero" id="top">
+        <h4 style="color: #b8a99a;">Thesis dissertation supplementary data</h4>
+        <h1>A toolbox for deciphering the <i>Agrobacterium tumefaciens</i> transcriptome landscape under <i>in vivo</i> conditions. </h1>
+        <p class="subtitle">
+            Yin-te Luan Pauwels - 2025-2026
+            <br> Promoter: prof. Barbara De Coninck
+            <br> Supervisor: Dries Delmotte
+        </p>
+    </div>
+
+    
+    <div class="container">
+
+        <!-- Tip for users -->
+        <div class="tip-bar">
+            This page contains supplementary data for the thesis dissertation of Yin-te Luan Pauwels.
+            <br>All 3D visualizations below are fully interactive.
+            <ul>
+              <li>Click &amp; drag to rotate</li>
+              <li>Scroll to zoom</li>
+              <li>Use available sliders</li> 
+              <li>Single click on a legend entry to remove from view</li>
+              <li>Double click on a legend entry to isolate in view</li>
+            </ul>
+        </div>
+        
+        <!-- ==================== TABLE OF CONTENTS (auto-populated) ==================== -->
+    <div class="toc-wrapper">
+        <div class="toc" id="mainToc">
+            <!-- Content auto-generated by JS from section headers + widget cards -->
+        </div>
+    </div>
+
+
+        <!-- ==================== SECTION 1 ==================== -->
+        <div class="section-header" data-toc-section="Four model comparison">
+            <h2>Comparison of four Generalized Linear Mixed Models (GLMM)</h2>
+        </div style="text-align:center">
+        <p class="section-intro">
+            Data of 16 conditions was plotted using a GLMM. Four models with increasing complexity (main effects only, main effects with quadratic terms, 
+            main effects with two-way interaction terms, and main effects with quadratic terms and two-way interaction terms. Models were compared using expected behavior, 
+            Nakagawa's R², and Root Mean Square Error (RMSE). The ideal model reacts as expected, has a high R², and a low RMSE.)
+        </p>
+
+        <!-- Widget 1 -->
+        <div class="widget-card" id="widget1">
+            <div class="card-text">
+                <h3>GLMM including main effects only</h3>
+                <p>         </p>
+                <span class="tag"> Model equation: </span>
+                <br>
+                <span class="tag"> Model condition range of interest: </span>
+                <br>
+                <span class="tag"> R² = </span>
+                <span class="tag"> RMSE = </span>               
+            </div>
+            <div class="iframe-container">
+                <iframe src="3D_main__gamma_log__plate_ultra_fine.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                 <p>
+                    <b>Supplementary figure 1:</b> 3D visualization of a Generalized Linear Mixed Model (GLMM) for the 16 conditions of the training dataset. 
+                    GLMM including main effects only for one dependent variable fluorescent signal, and three independent variables= pH [/], glucose concentration [%], and acetosyringone (AS) concentration [µM].
+                </p>
+            </div>
+        </div>
+
+        <!-- Widget 2 -->
+        <div class="widget-card" id="widget2">
+            <div class="card-text">
+                <h3>GLMM including main effects and quadratic terms</h3>
+                <p>                </p>
+                <span class="tag"> Model equation: </span>
+                <br>
+                <span class="tag"> Model condition range of interest: </span>
+                <br>
+                <span class="tag"> R² = </span>
+                <span class="tag"> RMSE = </span> 
+            </div>
+            <div class="iframe-container">
+                <iframe src="3D_main_quad__gamma_log__plate_ultra_fine.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                <p>
+                    <b>Supplementary figure 2:</b> 3D visualization of a Generalized Linear Mixed Model (GLMM) for the 16 conditions of the training dataset. 
+                    GLMM including main effects and quadratic terms for one dependent variable fluorescent signal, and three independent variables= pH [/], glucose concentration [%], and acetosyringone (AS) concentration [µM].
+                </p>
+            </div>
+        </div>
+
+        <!-- Widget 3 -->
+        <div class="widget-card" id="widget3">
+            <div class="card-text">
+                <h3>GLMM including main effects and two-interaction terms </h3>
+                <p>                </p>
+                <span class="tag"> Model equation: </span>
+                <br>
+                <span class="tag"> Model condition range of interest: </span>
+                <br>
+                <span class="tag"> R² = </span>
+                <span class="tag"> RMSE = </span> 
+            </div>
+            <div class="iframe-container">
+                <iframe src="3D_main_int__gamma_log__plate_ultra_fine.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                <p>
+                    <b>Supplementary figure 3:</b> 3D visualization of a Generalized Linear Mixed Model (GLMM) for the 16 conditions of the training dataset. 
+                    GLMM including main effects and two-way interaction terms for one dependent variable fluorescent signal, and three independent variables= pH [/], glucose concentration [%], and acetosyringone (AS) concentration [µM].
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Widget 4 -->
+        <div class="widget-card" id="widget4">
+            <div class="card-text">
+                <h3>GLMM including main effects, quadratic terms, and two-way interaction effects</h3>
+                <p>                 </p>
+                <span class="tag"> Model equation: </span>
+                <br>
+                <span class="tag"> Model condition range of interest: </span>
+                <br>
+                <span class="tag"> R² = </span>
+                <span class="tag"> RMSE = </span> 
+            </div>
+            <div class="iframe-container">
+                <iframe src="3D_full_rsm__gamma_log__plate_ultra_fine.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                <p>
+                    <b>Supplementary figure 4:</b> 3D visualization of a Generalized Linear Mixed Model (GLMM) for the 16 conditions of the training dataset. 
+                    GLMM including main effects, quadratic terms, and two-way interaction terms for one dependent variable fluorescent signal, and three independent 
+                    variables= pH [/], glucose concentration [%], and acetosyringone (AS) concentration [µM].
+                </p>
+            </div>
+        </div>
+
+        <!-- ==================== DIVIDER ==================== -->
+        <hr class="section-divider">
+
+        <!-- ==================== SECTION 2 ==================== -->
+        <div class="section-header" data-toc-section="Chosen GLMM">
+            <h2>Chosen GLMM</h2>
+        </div>
+        <p class="section-intro">
+            Once the models have been fitted with 16 training conditions and validated with 8 additional conditions, the model including main effects only was chosen as 
+            the model best displaying the data, while keeping low complexity. The complete dataset, from 16 training conditions and 8 validation conditions, was refitted
+            to enhance the model. 
+        </p>
+
+        <!-- Widget 5 -->
+        <div class="widget-card" id="widget5">
+            <div class="card-text">
+                <h3>GLMM including main effects only</h3>
+                <p>                </p>
+                <span class="tag"> Model equation: </span>
+                <br>
+                <span class="tag"> Model condition range of interest: </span>
+                <br>
+                <span class="tag"> R² = </span>
+                <span class="tag"> RMSE = </span> 
+            </div>
+            <div class="iframe-container">
+                <iframe src="3D_main__gamma_log__both_ultra_fine.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                <p>
+                    <b>Supplementary figure 5:</b> 3D visualization of a Generalized Linear Mixed Model (GLMM) for the 16 conditions of the training dataset and the 8 validation conditions. 
+                    GLMM including main effects only for one dependent variable fluorescent signal, and three independent variables= pH [/], glucose concentration [%], and acetosyringone (AS) concentration [µM].
+                </p>
+            </div>
+        </div>
+
+         <!-- ==================== DIVIDER ==================== -->
+        <hr class="section-divider">
+
+        <!-- ==================== SECTION 3 ==================== -->
+        <div class="section-header" data-toc-section="Other GLMM performing similarly">
+            <h2>Other GLMM performing similarly</h2>
+        </div>
+        <p class="section-intro">
+            Upon refitting the model for all four models, both the model with main effects and quadratic terms and the model with main effects and two-way interaction terms, 
+            performed well. The model including both main effects, quadratic terms, and two-way interaction terms showed the highest R², but also an RMSE almost double as large
+            compared to the other models.
+        </p>
+
+        <!-- Widget 6 -->
+        <div class="widget-card" id="widget6">
+            <div class="card-text">
+                <h3>GLMM including main effects and quadratic terms</h3>
+                <p>                </p>
+                <span class="tag"> Model equation: </span>
+                <br>
+                <span class="tag"> Model condition range of interest: </span>
+                <br>
+                <span class="tag"> R² = </span>
+                <span class="tag"> RMSE = </span> 
+            </div>
+            <div class="iframe-container">
+                <iframe src="3D_main_quad__gamma_log__both_ultra_fine.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                <p>
+                    <b>Supplementary figure 6:</b> 3D visualization of a Generalized Linear Mixed Model (GLMM) for the 16 conditions of the training dataset and the 8 validation conditions. 
+                    GLMM including main effects and quadratic terms for one dependent variable fluorescent signal, and three independent variables= pH [/], 
+                    glucose concentration [%], and acetosyringone (AS) concentration [µM].
+                </p>
+            </div>
+        </div>
+
+        <!-- Widget 7 -->
+        <div class="widget-card" id="widget7">
+            <div class="card-text">
+                <h3>GLMM including main effects and two-way interaction terms</h3>
+                <p>                </p>
+                <span class="tag"> Model equation: </span>
+                <br>
+                <span class="tag"> Model condition range of interest: </span>
+                <br>
+                <span class="tag"> R² = </span>
+                <span class="tag"> RMSE = </span> 
+            </div>
+            <div class="iframe-container">
+                <iframe src="3D_main_int__gamma_log__both_ultra_fine.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                <p>
+                    <b>Supplementary figure 7:</b> 3D visualization of a Generalized Linear Mixed Model (GLMM) for the 16 conditions of the training dataset and the 8 validation conditions. 
+                    GLMM including main effects and two-way interaction terms for one dependent variable fluorescent signal, and three independent variables= pH [/], 
+                    glucose concentration [%], and acetosyringone (AS) concentration [µM].
+                </p>
+            </div>
+        </div>
+                 <!-- ==================== DIVIDER ==================== -->
+        <hr class="section-divider">
+
+        <!-- ==================== SECTION 4 ==================== -->
+        <div class="section-header" data-toc-section="Other GLMM performing worse">
+            <h2>Other GLMM performing worse</h2>
+        </div>
+        <p class="section-intro">
+            For the sake of completeness, the model including both main effects, quadratic terms, and two-way interactions was added.
+        </p>
+        <!-- Widget 8 -->
+        <div class="widget-card" id="widget8">
+            <div class="card-text">
+                <h3>GLMM including main effects, quadratic terms, and two-way interaction effects</h3>
+                <p>                </p>
+                <span class="tag"> Model equation: </span>
+                <br>
+                <span class="tag"> Model condition range of interest: </span>
+                <br>
+                <span class="tag"> R² = </span>
+                <span class="tag"> RMSE = </span> 
+            </div>
+            <div class="iframe-container">
+                <iframe src="3D_full_rsm__gamma_log__both_ultra_fine.html" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+                <p>
+                    <b>Supplementary figure 8:</b> 3D visualization of a Generalized Linear Mixed Model (GLMM) for the 16 conditions of the training dataset and the 8 validation conditions. 
+                    GLMM including main effects, quadratic terms, and two-way interaction effects for one dependent variable fluorescent signal, and 
+                    three independent variables= pH [/], glucose concentration [%], and acetosyringone (AS) concentration [µM].
+                </p>
+            </div>
+        </div>
+
+        <!-- Back to top -->
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="#top" class="back-to-top">↑ Back to Top</a>
+        </div>
+
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p class="footer-line">A toolbox for deciphering the <i>Agrobacterium tumefaciens</i> transcriptome landscape under <i>in vivo</i> conditions.</p>
+        <p style="margin-top: 8px;">Yin-te Luan Pauwels &bull; 2025-2026</p>
+    </footer>
+        <script>
+    /* ====================================================================
+       AUTO-BUILD TABLE OF CONTENTS
+       Generates the TOC from `.section-header` (group titles via
+       data-toc-section) and `.widget-card` (entries via their <h3> + id).
+       Edit the headers in the HTML and the TOC updates automatically.
+       ==================================================================== */
+    (function buildTOC() {
+        const mainToc = document.getElementById('mainToc');
+        if (!mainToc) return;
+
+        const escapeHtml = (str) => str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+
+        let html = '<h2>📋 Table of Contents</h2>';
+
+        const container = document.querySelector('.container');
+        if (!container) return;
+        const nodes = container.querySelectorAll('.section-header, .widget-card');
+
+        let inList = false;        // currently inside an <ol>?
+        let counter = 0;           // continuous numbering across groups
+        let firstGroup = true;
+
+        nodes.forEach((node) => {
+            if (node.classList.contains('section-header')) {
+                if (inList) { html += '</ol>'; inList = false; }
+                const h2 = node.querySelector('h2');
+                const groupTitle = node.dataset.tocSection
+                    || (h2 ? h2.textContent.trim() : 'Section');
+                html += '<p class="toc-section-title">' + escapeHtml(groupTitle) + '</p>';
+                html += '<ol>';
+                inList = true;
+                firstGroup = false;
+            } else if (node.classList.contains('widget-card')) {
+                if (!inList) {
+                    html += '<p class="toc-section-title">Contents</p><ol>';
+                    inList = true;
+                    firstGroup = false;
+                }
+                const id = node.id;
+                const h3 = node.querySelector('h3');
+                if (!id || !h3) return;
+                counter++;
+                html += '<li><a href="#' + id + '">' + escapeHtml(h3.textContent.trim()) + '</a></li>';
+            }
+        });
+
+        if (inList) html += '</ol>';
+        mainToc.innerHTML = html;
+    })();
+    </script>
+    <script>
+    (function () {
+        const mainToc = document.querySelector('.toc');
+        const floatingToc = document.getElementById('floatingToc');
+        if (!mainToc || !floatingToc) {
+            console.warn('[TOC] Main or floating TOC not found');
+            return;
+        }
+
+        // Clone main TOC content
+        floatingToc.innerHTML = mainToc.innerHTML;
+
+        // --- Show/hide floating TOC ---
+        const visibilityObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    floatingToc.classList.toggle('visible', !entry.isIntersecting);
+                    floatingToc.setAttribute('aria-hidden', entry.isIntersecting);
+                });
+            },
+            { threshold: 0, rootMargin: '0px 0px -20px 0px' }
+        );
+        visibilityObserver.observe(mainToc);
+
+        // --- Scrollspy ---
+        const floatingLinks = Array.from(floatingToc.querySelectorAll('a[href^="#"]'));
+        console.log('[TOC] Floating links found:', floatingLinks.length);
+
+        const idToLink = new Map();
+        const sections = [];
+
+        floatingLinks.forEach((link) => {
+            const id = link.getAttribute('href').slice(1);
+            const section = document.getElementById(id);
+            console.log(`[TOC] Link "#${id}" →`, section ? 'FOUND ✅' : 'NOT FOUND ❌');
+            if (section) {
+                idToLink.set(id, link);
+                if (!sections.includes(section)) sections.push(section);
+            }
+        });
+
+        const setActive = (activeId) => {
+            floatingLinks.forEach((l) => {
+                const isActive = l.getAttribute('href') === '#' + activeId;
+                l.classList.toggle('active', isActive);
+            });
+            console.log('[TOC] Active section:', activeId);
+        };
+
+        // Use scroll listener instead of IntersectionObserver for more reliable result
+        const updateActiveSection = () => {
+            const scrollPos = window.scrollY + window.innerHeight * 0.3;
+            let current = null;
+
+            sections.forEach((sec) => {
+                const top = sec.offsetTop;
+                if (scrollPos >= top) current = sec;
+            });
+
+            if (current) setActive(current.id);
+            else floatingLinks.forEach((l) => l.classList.remove('active'));
+        };
+
+        // Throttle for performance
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    updateActiveSection();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Initial run
+        updateActiveSection();
+    })();
+    </script>
+</body>
+</html>', con = "index.html")
